@@ -68,30 +68,65 @@
 
       <!-- ================= AYODHYA MANDIR & RAM KI PAIDI GHAT SILHOUETTES (Z-5) ================= -->
       <div id="ayodhya-backdrop" class="absolute inset-0 pointer-events-none z-[5] overflow-hidden flex flex-col justify-end">
+        
+        <!-- Sacred Cosmic Surya Mandala / Sri Yantra (Behind Ram Mandir) -->
+        <div class="absolute top-[18%] left-1/2 -translate-x-1/2 w-[340px] h-[340px] sm:w-[540px] sm:h-[540px] pointer-events-none opacity-20 transition-opacity duration-1000" id="mandala-container">
+          <svg class="w-full h-full text-[#ffd700] animate-[spin_120s_linear_infinite]" viewBox="0 0 200 200" fill="none" stroke="currentColor">
+            <!-- Concentric Sacred Rings -->
+            <circle cx="100" cy="100" r="95" stroke-width="0.8" stroke-dasharray="2,2"/>
+            <circle cx="100" cy="100" r="82" stroke-width="1.2"/>
+            <circle cx="100" cy="100" r="68" stroke-width="0.8" stroke-dasharray="3,3"/>
+            <circle cx="100" cy="100" r="52" stroke-width="1.5"/>
+            <!-- 16 Sacred Lotus Petals -->
+            <g stroke-width="1" opacity="0.85">
+              <path d="M100,5 C108,30 115,48 100,52 C85,48 92,30 100,5 Z"/>
+              <path d="M100,195 C108,170 115,152 100,148 C85,152 92,170 100,195 Z"/>
+              <path d="M5,100 C30,108 48,115 52,100 C48,85 30,92 5,100 Z"/>
+              <path d="M195,100 C170,108 152,115 148,100 C152,85 170,92 195,100 Z"/>
+              <path d="M33,33 C53,48 68,58 64,48 C60,38 48,53 33,33 Z"/>
+              <path d="M167,167 C147,152 132,142 136,152 C140,162 152,147 167,167 Z"/>
+              <path d="M167,33 C152,53 142,68 152,64 C162,60 147,48 167,33 Z"/>
+              <path d="M33,167 C48,147 58,132 48,136 C38,140 53,152 33,167 Z"/>
+            </g>
+            <!-- Sri Yantra Intersecting Triangles Center -->
+            <polygon points="100,60 135,120 65,120" stroke-width="1.2" opacity="0.75"/>
+            <polygon points="100,140 135,80 65,80" stroke-width="1.2" opacity="0.75"/>
+            <polygon points="100,70 128,118 72,118" stroke-width="0.8" opacity="0.6"/>
+            <polygon points="100,130 128,82 72,82" stroke-width="0.8" opacity="0.6"/>
+            <circle cx="100" cy="100" r="3" fill="#ffd700"/>
+          </svg>
+        </div>
+
         <!-- Distant Ram Mandir & Palace Skyline SVG Silhouette -->
-        <div class="relative w-full h-[52%] flex items-end justify-center opacity-85">
+        <div class="relative w-full h-[54%] flex items-end justify-center opacity-90">
           <svg class="w-full h-full text-[#14081e]" viewBox="0 0 1200 400" preserveAspectRatio="none" fill="currentColor">
             <!-- Far Distant Ayodhya City Domes & Temples -->
             <path d="M0,400 L0,320 Q60,310 120,330 Q180,290 240,320 L270,300 Q300,280 330,315 L360,315 Q400,270 450,320 L1200,400 Z" opacity="0.45"/>
             
-            <!-- Grand Ram Mandir Central Complex (True Nagara Style Shikhara & Mandapas) -->
-            <!-- Left Mandapa -->
-            <path d="M420,340 L450,260 L470,250 L490,260 L520,340 Z" fill="#1b0a2a" opacity="0.9"/>
-            <polygon points="470,240 466,252 474,252" fill="#d4af37" opacity="0.8"/>
+            <!-- Grand Ram Mandir Central Complex (Nagara Style Shikhara & Mandapas) -->
+            <!-- Left Mandapa Portico -->
+            <path d="M410,350 L445,255 L470,245 L495,255 L530,350 Z" fill="#1b0a2a" opacity="0.95"/>
+            <polygon points="470,235 465,248 475,248" fill="#d4af37" opacity="0.85"/>
+            <!-- Mandapa Jali Window (Warm interior sanctuary light) -->
+            <rect x="463" y="275" width="14" height="22" rx="3" fill="#ffaa00" opacity="0.4" class="animate-pulse"/>
             
             <!-- Central Maha Shikhara (Grand Spire of Ayodhya Mandir) -->
-            <path d="M540,350 C550,220 575,130 600,80 C625,130 650,220 660,350 Z" fill="#180727"/>
-            <!-- Urushringa mini spires around main spire -->
-            <path d="M565,340 C575,260 585,210 600,180 C615,210 625,260 635,340 Z" fill="#230d36" opacity="0.8"/>
-            <!-- Amalaka & Kalash on Shikhara Top -->
-            <ellipse cx="600" cy="78" rx="14" ry="5" fill="#d4af37"/>
-            <polygon points="600,50 594,74 606,74" fill="#ffd700"/>
-            <!-- Sacred Saffron Dhwaja (Victory Flag waving) -->
-            <path d="M600,52 L628,60 L600,68 Z" fill="#ff7700" class="animate-pulse"/>
+            <path d="M535,360 C548,215 572,120 600,70 C628,120 652,215 665,360 Z" fill="#180727"/>
+            <!-- Urushringa cascading mini spires -->
+            <path d="M562,350 C572,250 584,200 600,170 C616,200 628,250 638,350 Z" fill="#240c38" opacity="0.85"/>
+            <path d="M578,350 C585,290 592,250 600,225 C608,250 615,290 622,350 Z" fill="#301149" opacity="0.85"/>
+            <!-- Amalaka & Sacred Golden Kalasha -->
+            <ellipse cx="600" cy="68" rx="15" ry="5.5" fill="#d4af37"/>
+            <polygon points="600,40 593,64 607,64" fill="#ffd700"/>
+            <circle cx="600" cy="38" r="3" fill="#fff5cc"/>
+            <!-- Sacred Saffron Dhwaja (Victory Flag fluttering) -->
+            <path d="M600,42 L635,52 L600,62 Z" fill="#ff7700" class="origin-left animate-[pulse_2s_ease-in-out_infinite]"/>
 
-            <!-- Right Mandapa & Pillar Porticos -->
-            <path d="M680,340 L710,260 L730,250 L750,260 L780,340 Z" fill="#1b0a2a" opacity="0.9"/>
-            <polygon points="730,240 726,252 734,252" fill="#d4af37" opacity="0.8"/>
+            <!-- Right Mandapa Portico -->
+            <path d="M670,350 L705,255 L730,245 L755,255 L790,350 Z" fill="#1b0a2a" opacity="0.95"/>
+            <polygon points="730,235 725,248 735,248" fill="#d4af37" opacity="0.85"/>
+            <!-- Mandapa Jali Window -->
+            <rect x="723" y="275" width="14" height="22" rx="3" fill="#ffaa00" opacity="0.4" class="animate-pulse"/>
 
             <!-- Far Right Ayodhya Palace Fortifications & Chhatris -->
             <path d="M820,350 L840,290 Q870,270 900,290 L920,350 Z" fill="#1c0b2b" opacity="0.8"/>
@@ -99,21 +134,21 @@
             <path d="M960,360 L980,305 Q1010,285 1040,305 L1060,360 Z" fill="#170924" opacity="0.75"/>
           </svg>
 
-          <!-- Golden Atmosphere Glow behind Ram Mandir Shikhara -->
-          <div class="absolute bottom-28 left-1/2 -translate-x-1/2 w-96 h-64 bg-gradient-to-t from-amber-500/20 via-rose-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+          <!-- Golden Atmospheric Aura behind Ram Mandir -->
+          <div class="absolute bottom-24 left-1/2 -translate-x-1/2 w-[420px] h-72 bg-gradient-to-t from-amber-500/25 via-rose-500/15 to-transparent rounded-full blur-3xl pointer-events-none transition-opacity duration-1000" id="mandir-aura"></div>
         </div>
 
         <!-- Ram ki Paidi Terraced Ghat Steps (Framing the Sarayu River Bank) -->
-        <div class="relative w-full h-[28%] bg-gradient-to-t from-[#091829] via-[#0b1022] to-transparent border-t border-[#d4af37]/20 flex items-end">
+        <div class="relative w-full h-[28%] bg-gradient-to-t from-[#091829] via-[#0b1022] to-transparent border-t border-[#d4af37]/30 flex items-end">
           
-          <!-- Ghat Stone Steps Overlay Texture -->
-          <div class="absolute inset-0 opacity-25 bg-[repeating-linear-gradient(0deg,#d4af37_0px,#d4af37_1px,transparent_1px,transparent_16px)] pointer-events-none"></div>
+          <!-- Ghat Stone Steps Texture -->
+          <div class="absolute inset-0 opacity-30 bg-[repeating-linear-gradient(0deg,#d4af37_0px,#d4af37_1px,transparent_1px,transparent_14px)] pointer-events-none"></div>
 
           <!-- Sarayu River Mist / Fog Layer -->
-          <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-amber-500/10 via-cyan-900/15 to-transparent blur-md pointer-events-none animate-pulse"></div>
+          <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-amber-500/12 via-cyan-900/18 to-transparent blur-md pointer-events-none animate-pulse"></div>
 
           <!-- Subtle Sarayu River Horizon Tag -->
-          <div class="absolute top-1 left-8 text-[9px] font-mono tracking-widest text-amber-300/40 uppercase">
+          <div class="absolute top-1 left-4 sm:left-8 text-[8px] sm:text-[9px] font-mono tracking-widest text-amber-300/40 uppercase">
             ~ Ram ki Paidi Ghats & Sacred Sarayu Waters ~
           </div>
         </div>
@@ -280,61 +315,86 @@
         
         <!-- Sacred 5-Diya Ceremonial Array (The Awakening Points) -->
         <div id="diya-altar" class="w-full max-w-xl flex justify-around items-end mb-2 sm:mb-4 px-1">
-          <!-- Diya 1 -->
-          <div class="diya-node cursor-pointer group" data-diya="1" title="Ignite Sacred Diya 1">
+          <!-- Diya 1: Dharma -->
+          <div class="diya-node cursor-pointer group" data-diya="1" title="Ignite Sacred Diya of Dharma">
             <div class="diya-flame-container relative flex flex-col items-center">
               <div class="flame-glow opacity-0 transition-opacity duration-500"></div>
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
-            <div class="diya-cup"></div>
-            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">1. DHARMA</span>
+            <div class="diya-cup">
+              <div class="diya-wick"></div>
+            </div>
+            <div class="text-center mt-0.5 sm:mt-1">
+              <span class="text-[9px] sm:text-[10px] text-amber-300 font-rozha block leading-tight">धर्म</span>
+              <span class="text-[7px] sm:text-[8px] text-amber-400/70 block font-mono tracking-wider">DHARMA</span>
+            </div>
           </div>
 
-          <!-- Diya 2 -->
-          <div class="diya-node cursor-pointer group" data-diya="2" title="Ignite Sacred Diya 2">
+          <!-- Diya 2: Satya -->
+          <div class="diya-node cursor-pointer group" data-diya="2" title="Ignite Sacred Diya of Satya">
             <div class="diya-flame-container relative flex flex-col items-center">
               <div class="flame-glow opacity-0 transition-opacity duration-500"></div>
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
-            <div class="diya-cup"></div>
-            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">2. SATYA</span>
+            <div class="diya-cup">
+              <div class="diya-wick"></div>
+            </div>
+            <div class="text-center mt-0.5 sm:mt-1">
+              <span class="text-[9px] sm:text-[10px] text-amber-300 font-rozha block leading-tight">सत्य</span>
+              <span class="text-[7px] sm:text-[8px] text-amber-400/70 block font-mono tracking-wider">SATYA</span>
+            </div>
           </div>
 
-          <!-- Center Mahadiya (Special & Larger) -->
+          <!-- Center Mahadiya: Ayodhya Dham (Special & Grand) -->
           <div class="diya-node central-mahadiya cursor-pointer group scale-110 sm:scale-125" data-diya="3" title="Ignite Ayodhya Maha-Diya">
             <div class="diya-flame-container relative flex flex-col items-center">
               <div class="flame-glow opacity-0 transition-opacity duration-500"></div>
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
-            <div class="diya-cup mahadiya-cup"></div>
-            <span class="text-[9px] sm:text-[10px] text-amber-300 font-bold block text-center mt-0.5 sm:mt-1 tracking-wider">महादीप</span>
+            <div class="diya-cup mahadiya-cup">
+              <div class="diya-wick mahadiya-wick"></div>
+            </div>
+            <div class="text-center mt-0.5 sm:mt-1">
+              <span class="text-[10px] sm:text-[12px] text-amber-200 font-rozha font-bold block leading-tight">महादीप</span>
+              <span class="text-[7px] sm:text-[8px] text-amber-300 block font-mono tracking-widest font-bold">AYODHYA</span>
+            </div>
           </div>
 
-          <!-- Diya 4 -->
-          <div class="diya-node cursor-pointer group" data-diya="4" title="Ignite Sacred Diya 4">
+          <!-- Diya 4: Prema -->
+          <div class="diya-node cursor-pointer group" data-diya="4" title="Ignite Sacred Diya of Prema">
             <div class="diya-flame-container relative flex flex-col items-center">
               <div class="flame-glow opacity-0 transition-opacity duration-500"></div>
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
-            <div class="diya-cup"></div>
-            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">4. PREMA</span>
+            <div class="diya-cup">
+              <div class="diya-wick"></div>
+            </div>
+            <div class="text-center mt-0.5 sm:mt-1">
+              <span class="text-[9px] sm:text-[10px] text-amber-300 font-rozha block leading-tight">प्रेम</span>
+              <span class="text-[7px] sm:text-[8px] text-amber-400/70 block font-mono tracking-wider">PREMA</span>
+            </div>
           </div>
 
-          <!-- Diya 5 -->
-          <div class="diya-node cursor-pointer group" data-diya="5" title="Ignite Sacred Diya 5">
+          <!-- Diya 5: Shaanti -->
+          <div class="diya-node cursor-pointer group" data-diya="5" title="Ignite Sacred Diya of Shaanti">
             <div class="diya-flame-container relative flex flex-col items-center">
               <div class="flame-glow opacity-0 transition-opacity duration-500"></div>
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
-            <div class="diya-cup"></div>
-            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">5. SHAANTI</span>
+            <div class="diya-cup">
+              <div class="diya-wick"></div>
+            </div>
+            <div class="text-center mt-0.5 sm:mt-1">
+              <span class="text-[9px] sm:text-[10px] text-amber-300 font-rozha block leading-tight">शान्ति</span>
+              <span class="text-[7px] sm:text-[8px] text-amber-400/70 block font-mono tracking-wider">SHAANTI</span>
+            </div>
           </div>
         </div>
 
         <!-- Glassmorphic Interactive Cracker & Tool Dock (Responsive Mobile-Fit) -->
         <div id="interactive-dock" class="flex items-center max-w-[98vw] overflow-x-auto no-scrollbar gap-1.5 sm:gap-2.5 p-1 sm:p-2 rounded-2xl bg-black/70 border border-[#d4af37]/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.7)]">
           <!-- Tool 1: Phuljhari Sparkler -->
-          <button class="dock-btn active" data-mode="sparkler" title="Phuljhari (Golden Sparkler)">
+          <button class="dock-btn active" data-mode="sparkler" title="Phuljhari (Golden Sparkler Cursor)">
             <span class="text-sm sm:text-base">✨</span>
             <span class="hidden md:inline text-xs font-semibold">Phuljhari</span>
           </button>
@@ -365,9 +425,10 @@
             <span class="hidden lg:inline text-xs font-semibold">Mic</span>
           </button>
 
-          <!-- Audio Mute/Unmute -->
-          <button id="audio-toggle-btn" class="dock-btn text-amber-300" title="Toggle Sound">
+          <!-- Audio & Ambient Drone Toggle -->
+          <button id="audio-toggle-btn" class="dock-btn text-amber-300 active" title="Toggle Procedural Festive Sound & Sacred Drone">
             <span id="audio-icon" class="text-sm sm:text-base">🔊</span>
+            <span class="hidden xl:inline text-xs font-semibold">Vedic Sound</span>
           </button>
 
           <!-- Judge Closer: Personalize & Mint Poster -->

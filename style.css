@@ -341,10 +341,10 @@ html, body {
 .diya-cup {
   width: 48px;
   height: 18px;
-  background: radial-gradient(ellipse at 50% 20%, #bf632b 0%, #6d2c0b 60%, #301104 100%);
+  background: radial-gradient(ellipse at 50% 20%, #bf632b 0%, #7d330c 60%, #3a1504 100%);
   border-radius: 0 0 24px 24px;
-  border-top: 2px solid #e28743;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  border-top: 2px solid #f39c12;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.75), inset 0 2px 4px rgba(255, 170, 0, 0.25);
   position: relative;
 }
 
@@ -353,7 +353,34 @@ html, body {
   height: 26px;
   border-top: 3px solid #ffba08;
   background: radial-gradient(ellipse at 50% 20%, #e67e22 0%, #a04000 60%, #4a1c02 100%);
-  box-shadow: 0 6px 24px rgba(255, 120, 0, 0.6);
+  box-shadow: 0 6px 24px rgba(255, 120, 0, 0.65), inset 0 3px 6px rgba(255, 200, 0, 0.4);
+}
+
+/* Cotton Wick (Baati) with carbon ember tip */
+.diya-wick {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 6px;
+  background: #1a0f08;
+  border-radius: 1px;
+}
+.diya-wick::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ff5500;
+  box-shadow: 0 0 3px #ff5500;
+}
+.mahadiya-wick {
+  width: 4px;
+  height: 8px;
+  top: -6px;
 }
 
 .flame-particle {
@@ -381,6 +408,20 @@ html, body {
   background: radial-gradient(ellipse at 50% 75%, #ffffff 0%, #fff066 30%, #ff8800 65%, #d00000 100%);
   filter: drop-shadow(0 0 14px #ff9900) drop-shadow(0 0 28px #ff5500);
   animation: flicker 1.2s ease-in-out infinite alternate;
+}
+
+/* Authentic realistic blue core flame root */
+.flame-particle.lit::before {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 35%;
+  background: radial-gradient(ellipse at 50% 100%, #00bfff 0%, #1e90ff 60%, transparent 100%);
+  border-radius: 50% 50% 30% 30%;
+  opacity: 0.85;
 }
 
 .central-mahadiya .flame-particle.lit {

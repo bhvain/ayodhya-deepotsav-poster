@@ -372,20 +372,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateCursorMode();
 
-  // --- 1. SPARKLES (PHULJHARI) ---
-  function spawnSparkler(x, y, count = 6) {
+  // --- 1. SPARKLES (PHULJHARI WITH BRANCHING DENDRITES) ---
+  function spawnSparkler(x, y, count = 6, canBranch = true) {
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 4.5 + 1.2;
+      const speed = Math.random() * 4.6 + 1.2;
       sparklerParticles.push({
         x: x,
         y: y,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed + 0.5,
+        vy: Math.sin(angle) * speed + 0.4,
         alpha: 1.0,
-        decay: Math.random() * 0.035 + 0.02,
-        size: Math.random() * 2.2 + 0.8,
-        color: Math.random() > 0.3 ? '#ffd700' : (Math.random() > 0.5 ? '#ffffff' : '#ff9900')
+        decay: Math.random() * 0.032 + 0.018,
+        size: Math.random() * 2.2 + 0.9,
+        color: Math.random() > 0.3 ? '#ffd700' : (Math.random() > 0.5 ? '#ffffff' : '#ff9900'),
+        canBranch: canBranch && Math.random() < 0.22,
+        hasBranched: false
       });
     }
   }
@@ -650,6 +652,12 @@ document.addEventListener('DOMContentLoaded', () => {
       p.vy += 0.08; // gravity
       p.alpha -= p.decay;
 
+      // Realistic Magnesium Branching (Spitting out micro-sparks)
+      if (p.canBranch && !p.hasBranched && p.alpha < 0.6) {
+        p.hasBranched = true;
+        spawnSparkler(p.x, p.y, 2, false);
+      }
+
       if (p.alpha <= 0) {
         sparklerParticles.splice(i, 1);
         continue;
@@ -891,60 +899,112 @@ document.addEventListener('DOMContentLoaded', () => {
     return audioCtx;
   }
 
-  // --- Sound 1: Sacred Brass Temple Bell Chime ---
+  // --- Sound 1: 6-Modal Resonant Bronze Temple Bell (Acoustic Physical Modeling) ---
   function playBellChime(freq = 392.0) {
     if (!isSoundEnabled) return;
     const ctx = getAudioContext();
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    const duration = 2.8;
+    const duration = 3.6;
 
-    // Fundamental Tone
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(freq, now);
+    // 1. Strike transient (bright high-frequency metallic contact chime)
+    const strikeOsc = ctx.createOscillator();
+    const strikeGain = ctx.createGain();
+    strikeOsc.type = 'triangle';
+    strikeOsc.frequency.setValueAtTime(freq * 3.8, now);
+    strikeGain.gain.setValueAtTime(0.001, now);
+    strikeGain.gain.exponentialRampToValueAtTime(0.35, now + 0.008);
+    strikeGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+    strikeOsc.connect(strikeGain);
+    strikeGain.connect(ctx.destination);
+    strikeOsc.start(now);
+    strikeOsc.stop(now + 0.16);
 
-    // Metallic Upper Harmonic (Overtone)
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(freq * 2.756, now);
+    // 2. Fundamental & Overtones (Hum, Prime, Tierce, Quint, Nominal with beating vibrato)
+    const partials = [
+      { f: freq * 0.5, gain: 0.22, decay: duration * 1.1 },    // Hum tone
+      { f: freq, gain: 0.42, decay: duration },                 // Prime
+      { f: freq * 1.189, gain: 0.24, decay: duration * 0.8 },   // Tierce (minor third)
+      { f: freq * 1.498, gain: 0.18, decay: duration * 0.7 },   // Quint (fifth)
+      { f: freq * 2.0, gain: 0.12, decay: duration * 0.55 },    // Nominal (octave)
+      { f: freq * 2.756 + 1.2, gain: 0.08, decay: duration * 0.4 } // Supernominal with beating vibrato
+    ];
 
-    // Deep Resonance Tone
-    const osc3 = ctx.createOscillator();
-    const gain3 = ctx.createGain();
-    osc3.type = 'triangle';
-    osc3.frequency.setValueAtTime(freq * 0.5, now);
+    partials.forEach(p => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(p.f, now);
 
-    // Bell Envelope (instant attack, long exponential decay)
-    gain1.gain.setValueAtTime(0.001, now);
-    gain1.gain.exponentialRampToValueAtTime(0.4, now + 0.015);
-    gain1.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(p.gain, now + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + p.decay);
 
-    gain2.gain.setValueAtTime(0.001, now);
-    gain2.gain.exponentialRampToValueAtTime(0.2, now + 0.02);
-    gain2.gain.exponentialRampToValueAtTime(0.0001, now + (duration * 0.7));
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + p.decay + 0.05);
+    });
+  }
 
-    gain3.gain.setValueAtTime(0.001, now);
-    gain3.gain.exponentialRampToValueAtTime(0.15, now + 0.03);
-    gain3.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+  // --- Sound: Ambient Sacred Vedic Tanpura Drone (~136.1 Hz Om Frequency) ---
+  let tanpuraGain = null;
+  let isDroneActive = false;
 
-    osc1.connect(gain1);
-    osc2.connect(gain2);
-    osc3.connect(gain3);
+  function initTanpuraDrone() {
+    if (!isSoundEnabled || isDroneActive) return;
+    const ctx = getAudioContext();
+    if (!ctx) return;
 
-    gain1.connect(ctx.destination);
-    gain2.connect(ctx.destination);
-    gain3.connect(ctx.destination);
+    try {
+      const now = ctx.currentTime;
+      tanpuraGain = ctx.createGain();
+      tanpuraGain.gain.setValueAtTime(0.001, now);
+      tanpuraGain.gain.exponentialRampToValueAtTime(0.055, now + 3.0); // Gentle 3s fade-in
 
-    osc1.start(now);
-    osc2.start(now);
-    osc3.start(now);
-    osc1.stop(now + duration);
-    osc2.stop(now + duration);
-    osc3.stop(now + duration);
+      // Sacred Frequencies (Sa: 136.1Hz Om, Pa: 204.15Hz, Tar Sa: 272.2Hz)
+      const freqs = [136.1, 204.15, 272.2, 136.1 * 0.5];
+      freqs.forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(f, now);
+
+        // Warm lowpass filter for silky acoustic timbre
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(380 + idx * 60, now);
+
+        // Subtle LFO modulation for breathing acoustic presence
+        lfo.frequency.setValueAtTime(0.22 + idx * 0.08, now);
+        lfoGain.gain.setValueAtTime(16, now);
+        lfo.connect(filter.frequency);
+        lfo.start(now);
+
+        osc.connect(filter);
+        filter.connect(tanpuraGain);
+        osc.start(now);
+      });
+
+      tanpuraGain.connect(ctx.destination);
+      isDroneActive = true;
+    } catch (e) {
+      console.warn('Drone init deferred:', e);
+    }
+  }
+
+  function stopTanpuraDrone() {
+    if (tanpuraGain && audioCtx) {
+      try {
+        tanpuraGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+        setTimeout(() => { isDroneActive = false; }, 1300);
+      } catch (e) {
+        isDroneActive = false;
+      }
+    }
   }
 
   // --- Sound 2: Diya Flame Ignition Whoosh ---
@@ -1099,6 +1159,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const newBrightness = 0.28 + (litDiyas.size * 0.15);
     updatePosterBrightness(newBrightness);
 
+    // Awaken background Sacred Surya Mandala and Mandir Aura
+    const mandala = document.getElementById('mandala-container');
+    if (mandala) {
+      mandala.style.opacity = (0.2 + (litDiyas.size * 0.12)).toFixed(2);
+    }
+    const aura = document.getElementById('mandir-aura');
+    if (aura) {
+      aura.style.opacity = (0.25 + (litDiyas.size * 0.14)).toFixed(2);
+    }
+
     // If Central Mahadiya (diya #3) or all 5 are lit -> Trigger Grand Awakening
     if ((diyaIndex === '3' || litDiyas.size === 5) && !isAyodhyaAwakened) {
       triggerAyodhyaAwakening(sparkX, sparkY);
@@ -1116,6 +1186,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function triggerAyodhyaAwakening(originX = stageWidth / 2, originY = stageHeight * 0.8) {
     isAyodhyaAwakened = true;
     updatePosterBrightness(1.0); // Full glorious radiant illumination!
+
+    // Start Sacred Vedic Tanpura Drone
+    initTanpuraDrone();
 
     // Light remaining diyas in celebratory sequence
     diyaNodes.forEach((d, idx) => {
@@ -1260,9 +1333,11 @@ document.addEventListener('DOMContentLoaded', () => {
       isSoundEnabled = !isSoundEnabled;
       if (isSoundEnabled) {
         getAudioContext();
+        initTanpuraDrone();
         audioIcon.innerText = '🔊';
         audioToggleBtn.classList.add('active');
       } else {
+        stopTanpuraDrone();
         audioIcon.innerText = '🔇';
         audioToggleBtn.classList.remove('active');
       }
