@@ -21,24 +21,47 @@ document.addEventListener('DOMContentLoaded', () => {
   let fxCtx = null;
 
   // =========================================================================
-  // STEP 3: SKY & SARAYU WATER & GHAT MICRO-DIYA ENGINE
+  // STEP 3: SKY & SARAYU WATER & GHAT MICRO-DIYA ENGINE (MOBILE-OPTIMIZED)
   // =========================================================================
   const stars = [];
   const ghatMicroDiyas = [];
   const distantLanterns = [];
   let waterWaveTime = 0;
+  let diyaGlowSprite = null;
+
+  // Pre-render glowing diya sprite on an offscreen canvas to eliminate
+  // thousands of createRadialGradient() CPU allocations every frame
+  function initDiyaSprite() {
+    diyaGlowSprite = document.createElement('canvas');
+    diyaGlowSprite.width = 32;
+    diyaGlowSprite.height = 32;
+    const sCtx = diyaGlowSprite.getContext('2d');
+    const grad = sCtx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    grad.addColorStop(0, 'rgba(255, 180, 0, 0.95)');
+    grad.addColorStop(0.35, 'rgba(255, 110, 0, 0.4)');
+    grad.addColorStop(0.7, 'rgba(255, 60, 0, 0.12)');
+    grad.addColorStop(1, 'transparent');
+    sCtx.fillStyle = grad;
+    sCtx.fillRect(0, 0, 32, 32);
+  }
+  initDiyaSprite();
 
   function initAtmosphere() {
     stars.length = 0;
     ghatMicroDiyas.length = 0;
     distantLanterns.length = 0;
 
-    // 1. Generate 90 Twinkling Starlight Points in Upper Atmosphere
-    for (let i = 0; i < 90; i++) {
+    const isMobile = stageWidth < 640;
+    const starCount = isMobile ? 45 : 85;
+    const diyaCount = isMobile ? 48 : 120;
+    const lanternCount = isMobile ? 6 : 12;
+
+    // 1. Twinkling Starlight Points in Upper Atmosphere
+    for (let i = 0; i < starCount; i++) {
       stars.push({
         x: Math.random() * stageWidth,
-        y: Math.random() * (stageHeight * 0.55),
-        radius: Math.random() * 1.5 + 0.4,
+        y: Math.random() * (stageHeight * 0.52),
+        radius: Math.random() * 1.4 + 0.4,
         alpha: Math.random() * 0.7 + 0.3,
         twinkleSpeed: Math.random() * 0.03 + 0.01,
         phase: Math.random() * Math.PI * 2,
@@ -46,16 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 2. Generate 140+ Micro-Diyas placed along the Ram ki Paidi Ghat steps
+    // 2. Micro-Diyas placed along the Ram ki Paidi Ghat steps
     const ghatTopY = stageHeight * 0.72;
-    for (let i = 0; i < 150; i++) {
-      // Stepped tier distribution
-      const stepTier = Math.floor(Math.random() * 4); // 4 tiers of stone ghat steps
+    for (let i = 0; i < diyaCount; i++) {
+      const stepTier = Math.floor(Math.random() * 4);
       const yPos = ghatTopY + (stepTier * (stageHeight * 0.065)) + (Math.random() * 8);
       ghatMicroDiyas.push({
         x: Math.random() * stageWidth,
         y: yPos,
-        baseRadius: Math.random() * 1.8 + 1.2,
+        baseRadius: Math.random() * 1.6 + 1.0,
         flickerSpeed: Math.random() * 0.08 + 0.03,
         phase: Math.random() * Math.PI * 2,
         hue: Math.random() > 0.3 ? '#ff9900' : '#ffd700'
@@ -63,13 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 3. Ambient Drifting Distant Sky Lanterns (Aakash Kandil)
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < lanternCount; i++) {
       distantLanterns.push({
         x: Math.random() * stageWidth,
         y: Math.random() * stageHeight,
         vx: (Math.random() - 0.5) * 0.25,
         vy: -(Math.random() * 0.35 + 0.15),
-        size: Math.random() * 5 + 3,
+        size: Math.random() * 4 + 3,
         alpha: Math.random() * 0.6 + 0.25,
         flicker: Math.random() * Math.PI
       });
@@ -109,8 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const lanternGlow = Math.sin(lantern.flicker) * 0.15 + 0.85;
       skyCtx.save();
       skyCtx.globalAlpha = lantern.alpha * lanternGlow;
-      skyCtx.shadowColor = '#ffaa00';
-      skyCtx.shadowBlur = 10;
       skyCtx.fillStyle = '#ffb703';
       
       // Mini lantern rectangle body
@@ -137,47 +157,45 @@ document.addEventListener('DOMContentLoaded', () => {
     skyCtx.globalAlpha = 1.0;
     skyCtx.fillRect(0, riverY, stageWidth, riverHeight);
 
-    // Sarayu Golden Wave Caustics & Water Ripple Streaks
+    // Sarayu Golden Wave Caustics (Fewer wave passes on mobile for 60fps)
+    const isMobile = stageWidth < 640;
+    const waveRows = isMobile ? 8 : 16;
     skyCtx.lineWidth = 1.2;
-    for (let row = 0; row < 18; row++) {
-      const currentY = riverY + (row / 18) * riverHeight;
-      const perspectiveScale = (row / 18); // Waves widen towards bottom
-      const waveAmplitude = 1.5 + perspectiveScale * 3.5;
+
+    for (let row = 0; row < waveRows; row++) {
+      const currentY = riverY + (row / waveRows) * riverHeight;
+      const perspectiveScale = (row / waveRows);
+      const waveAmplitude = 1.5 + perspectiveScale * 3.2;
       const speed = 0.8 + perspectiveScale * 0.4;
       
       skyCtx.beginPath();
       skyCtx.moveTo(0, currentY);
 
-      for (let x = 0; x <= stageWidth; x += 25) {
+      const stepSize = isMobile ? 35 : 25;
+      for (let x = 0; x <= stageWidth; x += stepSize) {
         const wave = Math.sin((x * 0.02) + (waterWaveTime * speed) + row) * waveAmplitude;
         skyCtx.lineTo(x, currentY + wave);
       }
 
-      // Golden light reflection on water increases towards center
       const rowAlpha = (0.08 + Math.sin(waterWaveTime + row * 0.5) * 0.04) * (1 - perspectiveScale * 0.3);
       skyCtx.strokeStyle = `rgba(255, 200, 80, ${rowAlpha})`;
       skyCtx.stroke();
     }
 
-    // --- D. Render Micro-Diyas on Ram ki Paidi Ghat Steps ---
+    // --- D. Render Micro-Diyas on Ram ki Paidi Ghat Steps (Using Fast Cached Sprite) ---
     skyCtx.globalAlpha = 1.0;
     for (let diya of ghatMicroDiyas) {
       diya.phase += diya.flickerSpeed;
       const flickerFactor = 0.75 + Math.sin(diya.phase) * 0.25;
       const radius = diya.baseRadius * flickerFactor;
 
-      // Ambient outer soft glow
-      const glowGrad = skyCtx.createRadialGradient(diya.x, diya.y, 0, diya.x, diya.y, radius * 3.5);
-      glowGrad.addColorStop(0, 'rgba(255, 170, 0, 0.8)');
-      glowGrad.addColorStop(0.5, 'rgba(255, 100, 0, 0.2)');
-      glowGrad.addColorStop(1, 'transparent');
+      // Ultra-fast GPU drawImage from pre-rendered sprite
+      if (diyaGlowSprite) {
+        const glowDim = radius * 7;
+        skyCtx.drawImage(diyaGlowSprite, diya.x - glowDim / 2, diya.y - glowDim / 2, glowDim, glowDim);
+      }
 
-      skyCtx.fillStyle = glowGrad;
-      skyCtx.beginPath();
-      skyCtx.arc(diya.x, diya.y, radius * 3.5, 0, Math.PI * 2);
-      skyCtx.fill();
-
-      // Sharp Diya Flame Core
+      // Diya Core
       skyCtx.fillStyle = diya.hue;
       skyCtx.beginPath();
       skyCtx.arc(diya.x, diya.y, radius, 0, Math.PI * 2);
@@ -185,19 +203,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Subtle water reflection under diya
       if (diya.y > riverY - 10) {
-        skyCtx.fillStyle = 'rgba(255, 170, 0, 0.15)';
-        skyCtx.fillRect(diya.x - 3, diya.y + 4, 6, 8);
+        skyCtx.fillStyle = 'rgba(255, 170, 0, 0.12)';
+        skyCtx.fillRect(diya.x - 2, diya.y + 3, 4, 6);
       }
     }
 
     requestAnimationFrame(renderSkyAndWater);
   }
 
-  // Handle High-DPI Canvas Resizing
+  // Handle High-DPI Canvas Resizing with Mobile DPI Clamping
   function resizeCanvases() {
     if (!fxCanvas || !skyCanvas || !posterStage) return;
     const rect = posterStage.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
+    
+    // Clamp DPR to 1.25 on mobile to avoid 4K pixel fill-rate lag, 2 on desktop
+    const isMobile = window.innerWidth < 768;
+    const dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1.25) : Math.min(window.devicePixelRatio || 1, 2);
 
     stageWidth = rect.width;
     stageHeight = rect.height;
@@ -413,20 +434,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 4. ROYAL PALACE FIREWORKS ---
+  // --- 4. ROYAL PALACE FIREWORKS (AUTHENTIC 3D DEPTH & WILLOW TRAILS) ---
   const fireworkPalettes = [
-    ['#ffd700', '#fff3a8', '#ff8800', '#ffffff'], // 24K Royal Gold
+    ['#ffd700', '#fff3a8', '#ff8800', '#ffffff'], // 24K Royal Gold & Willow
     ['#ff2a85', '#ff7700', '#ffd700', '#fff5cc'], // Festive Vermillion & Amber
     ['#00f5d4', '#7000ff', '#ffd700', '#ffffff'], // Peacock Cyan & Imperial Violet
     ['#ff3b30', '#ff9500', '#ffcc00', '#ffffff']  // Deep Sunset Flame
   ];
 
+  let skyFlashBloom = 0;
+  let skyFlashX = 0;
+  let skyFlashY = 0;
+  let skyFlashColor = '#ffd700';
+
   function launchFirework(targetX, targetY) {
-    const startX = targetX + (Math.random() - 0.5) * 60;
-    const startY = stageHeight - 10;
+    const startX = targetX + (Math.random() - 0.5) * 40;
+    const startY = stageHeight - 5;
     const dy = targetY - startY;
     const dx = targetX - startX;
-    const steps = 45;
+    const steps = 42;
+
+    playRocketWhistle();
     
     rockets.push({
       x: startX,
@@ -440,43 +468,71 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function explodeFirework(x, y, palette) {
-    const particleCount = 75 + Math.floor(Math.random() * 35);
+    // 1. Trigger Atmospheric Sky Bloom
+    skyFlashBloom = 0.5;
+    skyFlashX = x;
+    skyFlashY = y;
+    skyFlashColor = palette[0];
+
+    // 2. Play Realistic Deep Detonation Sound
+    playFireworkSound();
+
+    // 3. 3D Spherical Particles (True Physical Depth)
+    const isMobile = stageWidth < 640;
+    const particleCount = isMobile ? 55 : 85;
+
     for (let i = 0; i < particleCount; i++) {
-      const angle = (i / particleCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.2;
-      const speed = Math.random() * 5.5 + 1.5;
+      // Uniform 3D sphere velocity distribution
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(Math.random() * 2 - 1);
+      const speed = Math.random() * 4.8 + 1.6;
+
+      const vx = Math.sin(phi) * Math.cos(theta) * speed;
+      const vy = Math.sin(phi) * Math.sin(theta) * speed;
+      const vz = Math.cos(phi) * (speed * 20); // 3D depth velocity
+
       const color = palette[Math.floor(Math.random() * palette.length)];
       
       fireworkParticles.push({
         x: x,
         y: y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        gravity: 0.065,
+        z: 0,
+        vx: vx,
+        vy: vy,
+        vz: vz,
+        gravity: 0.055,
         friction: 0.965,
         alpha: 1.0,
-        decay: Math.random() * 0.016 + 0.012,
-        size: Math.random() * 2.6 + 1.2,
+        decay: Math.random() * 0.015 + 0.010,
+        size: Math.random() * 2.4 + 1.2,
         color: color,
-        sparkle: Math.random() > 0.4
+        trail: [],
+        sparkle: Math.random() > 0.35,
+        canCrackle: Math.random() > 0.65
       });
     }
 
-    // Secondary golden shimmer ring
-    for (let i = 0; i < 24; i++) {
-      const angle = (i / 24) * Math.PI * 2;
-      const speed = Math.random() * 2.2 + 0.8;
+    // 4. Secondary Golden Willow Core Ring
+    const coreCount = isMobile ? 16 : 28;
+    for (let i = 0; i < coreCount; i++) {
+      const angle = (i / coreCount) * Math.PI * 2;
+      const speed = Math.random() * 2.0 + 0.8;
       fireworkParticles.push({
         x: x,
         y: y,
+        z: (Math.random() - 0.5) * 40,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        gravity: 0.04,
-        friction: 0.95,
+        vz: (Math.random() - 0.5) * 10,
+        gravity: 0.035,
+        friction: 0.955,
         alpha: 1.0,
-        decay: 0.02,
-        size: 1.5,
+        decay: 0.018,
+        size: 1.6,
         color: '#ffd700',
-        sparkle: true
+        trail: [],
+        sparkle: true,
+        canCrackle: false
       });
     }
   }
@@ -572,6 +628,20 @@ document.addEventListener('DOMContentLoaded', () => {
     fxCtx.save();
     fxCtx.globalCompositeOperation = 'lighter';
 
+    // Detonation Atmospheric Sky Bloom (Simulates real firework flash across Ayodhya)
+    if (skyFlashBloom > 0.02) {
+      const flashGrad = fxCtx.createRadialGradient(skyFlashX, skyFlashY, 10, skyFlashX, skyFlashY, stageWidth * 0.75);
+      flashGrad.addColorStop(0, skyFlashColor);
+      flashGrad.addColorStop(0.4, 'rgba(255, 180, 50, 0.2)');
+      flashGrad.addColorStop(1, 'transparent');
+      fxCtx.save();
+      fxCtx.globalAlpha = skyFlashBloom;
+      fxCtx.fillStyle = flashGrad;
+      fxCtx.fillRect(0, 0, stageWidth, stageHeight);
+      fxCtx.restore();
+      skyFlashBloom *= 0.85;
+    }
+
     // --- A. Render Sparkler Particles ---
     for (let i = sparklerParticles.length - 1; i >= 0; i--) {
       const p = sparklerParticles[i];
@@ -619,26 +689,54 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // --- C. Render Exploded Firework Particles ---
+    // --- C. Render Exploded Firework Particles (3D Perspective Depth & Willow Trails) ---
     for (let i = fireworkParticles.length - 1; i >= 0; i--) {
       const p = fireworkParticles[i];
       p.x += p.vx;
       p.y += p.vy;
+      p.z = (p.z || 0) + (p.vz || 0);
       p.vx *= p.friction;
       p.vy *= p.friction;
+      if (p.vz) p.vz *= p.friction;
       p.vy += p.gravity;
       p.alpha -= p.decay;
 
+      // Record weeping willow trail history
+      p.trail.push({ x: p.x, y: p.y });
+      if (p.trail.length > 4) p.trail.shift();
+
       if (p.alpha <= 0) {
+        // Crackling Chrysanthemum pop at end of life
+        if (p.canCrackle && Math.random() > 0.65) {
+          spawnSparkler(p.x, p.y, 3);
+        }
         fireworkParticles.splice(i, 1);
         continue;
       }
 
-      const currentSize = p.sparkle && Math.random() > 0.4 ? p.size * 1.5 : p.size;
-      fxCtx.fillStyle = p.color;
-      fxCtx.globalAlpha = p.alpha;
+      // 3D Perspective Scaling based on Z-depth
+      const depthScale = Math.max(0.4, Math.min(1.75, (260 + p.z) / 260));
+      const renderSize = (p.sparkle && Math.random() > 0.4 ? p.size * 1.4 : p.size) * depthScale;
+      const renderAlpha = Math.max(0, Math.min(1.0, p.alpha * (p.z > 0 ? 1.0 : 0.75)));
+
+      // Render Weeping Willow Trail
+      if (p.trail.length > 1) {
+        fxCtx.beginPath();
+        fxCtx.moveTo(p.trail[0].x, p.trail[0].y);
+        for (let t = 1; t < p.trail.length; t++) {
+          fxCtx.lineTo(p.trail[t].x, p.trail[t].y);
+        }
+        fxCtx.strokeStyle = p.color;
+        fxCtx.lineWidth = Math.max(0.7, renderSize * 0.7);
+        fxCtx.globalAlpha = renderAlpha * 0.45;
+        fxCtx.stroke();
+      }
+
+      // Head Spark
+      fxCtx.fillStyle = (p.sparkle && Math.random() > 0.6) ? '#ffffff' : p.color;
+      fxCtx.globalAlpha = renderAlpha;
       fxCtx.beginPath();
-      fxCtx.arc(p.x, p.y, currentSize, 0, Math.PI * 2);
+      fxCtx.arc(p.x, p.y, renderSize, 0, Math.PI * 2);
       fxCtx.fill();
     }
 
@@ -873,7 +971,27 @@ document.addEventListener('DOMContentLoaded', () => {
     osc.stop(now + 0.42);
   }
 
-  // --- Sound 3: Celebratory Firework Boom & Whistle ---
+  // --- Sound 3: High-Altitude Rocket Whistle ---
+  function playRocketWhistle() {
+    if (!isSoundEnabled) return;
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(340, now);
+    osc.frequency.exponentialRampToValueAtTime(1400, now + 0.45);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.07, now + 0.06);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.48);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.5);
+  }
+
+  // --- Sound 4: Celebratory Firework Boom & Echo ---
   function playFireworkSound() {
     if (!isSoundEnabled) return;
     const ctx = getAudioContext();
@@ -881,21 +999,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const now = ctx.currentTime;
 
-    // Explosion Boom (Low Frequency punch)
+    // Sub-bass heavy thud
     const boomOsc = ctx.createOscillator();
     const boomGain = ctx.createGain();
     boomOsc.type = 'triangle';
-    boomOsc.frequency.setValueAtTime(120, now);
-    boomOsc.frequency.exponentialRampToValueAtTime(35, now + 0.3);
+    boomOsc.frequency.setValueAtTime(130, now);
+    boomOsc.frequency.exponentialRampToValueAtTime(30, now + 0.35);
 
     boomGain.gain.setValueAtTime(0.01, now);
-    boomGain.gain.exponentialRampToValueAtTime(0.35, now + 0.02);
-    boomGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+    boomGain.gain.exponentialRampToValueAtTime(0.42, now + 0.02);
+    boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
 
     boomOsc.connect(boomGain);
     boomGain.connect(ctx.destination);
     boomOsc.start(now);
-    boomOsc.stop(now + 0.65);
+    boomOsc.stop(now + 0.75);
+
+    // Initial sharp transient snap
+    const snapOsc = ctx.createOscillator();
+    const snapGain = ctx.createGain();
+    snapOsc.type = 'square';
+    snapOsc.frequency.setValueAtTime(1800, now);
+    snapOsc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
+
+    snapGain.gain.setValueAtTime(0.01, now);
+    snapGain.gain.exponentialRampToValueAtTime(0.18, now + 0.01);
+    snapGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+
+    snapOsc.connect(snapGain);
+    snapGain.connect(ctx.destination);
+    snapOsc.start(now);
+    snapOsc.stop(now + 0.1);
   }
 
   // Hook Temple Bells for realistic ringing & chime sounds
