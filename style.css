@@ -34,47 +34,136 @@ html, body {
               #05020a 100%);
 }
 
-/* Responsive Viewport Optimizations for Compact / Laptop Displays */
-@media (max-height: 750px) {
+/* Touch Hit Area Enhancements for Mobile & Tablets (Min 44x44px target) */
+.diya-node::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  bottom: -10px;
+  left: -15px;
+  right: -15px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.temple-bell-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  bottom: -15px;
+  left: -12px;
+  right: -12px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Comprehensive Responsive Styling for Mobile Devices (< 640px) */
+@media (max-width: 640px) {
   #poster-root {
-    padding: 0.25rem !important;
+    padding: 0.15rem !important;
+  }
+  #poster-stage {
+    border-radius: 0.75rem !important;
+    border-width: 1px !important;
+  }
+  .corner-bracket {
+    width: 20px !important;
+    height: 20px !important;
+    border-width: 2px !important;
+  }
+  .corner-bracket::before {
+    width: 5px !important;
+    height: 5px !important;
+  }
+  .corner-bracket::after {
+    display: none;
   }
   #main-title {
-    font-size: 2.25rem !important;
+    font-size: clamp(1.6rem, 7.5vw, 2.75rem) !important;
+    letter-spacing: -0.02em !important;
   }
-  header {
-    padding-top: 3.5rem !important;
+  #center-monument h2 {
+    font-size: clamp(1rem, 4.5vw, 1.5rem) !important;
+    letter-spacing: 0.1em !important;
   }
-  .temple-bell-wrapper .bell-chain {
-    height: 1.25rem !important;
+  #royal-samman-patra {
+    padding: 0.5rem 0.75rem !important;
+    gap: 0.5rem !important;
+    flex-direction: row !important;
   }
-  #diya-altar {
-    margin-bottom: 0.25rem !important;
+  .royal-gold-seal {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+  }
+  .royal-gold-seal svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .dock-btn {
+    padding: 0.35rem 0.5rem !important;
+    border-radius: 0.65rem !important;
+    font-size: 0.75rem !important;
   }
   .diya-cup {
-    width: 38px !important;
+    width: 36px !important;
     height: 14px !important;
   }
   .mahadiya-cup {
-    width: 52px !important;
+    width: 48px !important;
     height: 18px !important;
   }
   .flame-particle {
-    height: 20px !important;
-    width: 10px !important;
+    height: 18px !important;
+    width: 9px !important;
+  }
+  .central-mahadiya .flame-particle.lit {
+    height: 26px !important;
+    width: 13px !important;
   }
 }
 
-@media (max-width: 640px) {
-  .corner-bracket {
-    width: 24px;
-    height: 24px;
+/* Responsive Landscape on Mobile (< 550px height) */
+@media (max-height: 550px) {
+  header {
+    padding-top: 2rem !important;
+  }
+  #center-monument {
+    margin-top: 0 !important;
+  }
+  #center-monument p {
+    display: none !important;
   }
   #temple-bells-container {
-    gap: 0.75rem !important;
+    display: none !important;
   }
-  #diya-altar span {
-    font-size: 7px !important;
+  #main-title {
+    font-size: 1.75rem !important;
+  }
+  #diya-altar {
+    margin-bottom: 0.15rem !important;
+  }
+  footer {
+    padding-bottom: 0.25rem !important;
+  }
+}
+
+/* Tablet Optimizations (641px - 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  #main-title {
+    font-size: 3.5rem !important;
+  }
+  #temple-bells-container {
+    gap: 2rem !important;
   }
 }
 

@@ -220,8 +220,28 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(renderSkyAndWater);
   requestAnimationFrame(renderFX);
 
-  // 3D Parallax Tilt Effect on Poster Stage
+  // =========================================================================
+  // RESPONSIVE 3D PARALLAX, GYROSCOPE & AMBIENT ROAMING LIGHT
+  // =========================================================================
+  let lastUserInteraction = 0;
+  let hasGyroscope = false;
+
+  // Auto-roaming ambient light when device is idle
+  function updateAmbientLivingLight() {
+    if (Date.now() - lastUserInteraction > 1600 && !hasGyroscope) {
+      const t = Date.now();
+      const ambX = 50 + Math.sin(t * 0.00075) * 24;
+      const ambY = 46 + Math.cos(t * 0.00055) * 18;
+      posterStage.style.setProperty('--light-x', `${ambX.toFixed(1)}%`);
+      posterStage.style.setProperty('--light-y', `${ambY.toFixed(1)}%`);
+    }
+    requestAnimationFrame(updateAmbientLivingLight);
+  }
+  requestAnimationFrame(updateAmbientLivingLight);
+
+  // Desktop Mouse Parallax Tilt & Raycast Light
   posterStage.addEventListener('mousemove', (e) => {
+    lastUserInteraction = Date.now();
     const rect = posterStage.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -244,6 +264,55 @@ document.addEventListener('DOMContentLoaded', () => {
   posterStage.addEventListener('mouseleave', () => {
     posterStage.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg)`;
   });
+
+  // Mobile & Tablet Gyroscope (DeviceOrientation) Parallax
+  function handleDeviceOrientation(event) {
+    if (event.gamma === null || event.beta === null) return;
+    hasGyroscope = true;
+    lastUserInteraction = Date.now();
+
+    // gamma: left-to-right tilt [-90, 90]
+    // beta: front-to-back tilt [-180, 180]
+    const gamma = Math.max(-45, Math.min(45, event.gamma));
+    const beta = Math.max(10, Math.min(75, event.beta)); // Normal handheld angle ~45 deg
+
+    const tiltY = (gamma / 45) * 8; // max 8 deg tilt
+    const tiltX = ((beta - 45) / 30) * -8;
+
+    posterStage.style.transform = `perspective(1200px) rotateX(${tiltX.toFixed(1)}deg) rotateY(${tiltY.toFixed(1)}deg)`;
+
+    const lightX = 50 + (gamma / 45) * 35;
+    const lightY = 45 + ((beta - 45) / 30) * 30;
+    posterStage.style.setProperty('--light-x', `${lightX.toFixed(1)}%`);
+    posterStage.style.setProperty('--light-y', `${lightY.toFixed(1)}%`);
+  }
+
+  // Request Gyroscope permissions (iOS 13+ support)
+  function initMobileGyroscope() {
+    if (typeof DeviceOrientationEvent !== 'undefined') {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', handleDeviceOrientation, { passive: true });
+            }
+          })
+          .catch(console.warn);
+      } else {
+        window.addEventListener('deviceorientation', handleDeviceOrientation, { passive: true });
+      }
+    }
+  }
+
+  // Unlock mobile audio and gyroscope on very first screen tap
+  function unlockMobileEnvironment() {
+    getAudioContext();
+    initMobileGyroscope();
+    window.removeEventListener('touchstart', unlockMobileEnvironment);
+    window.removeEventListener('pointerdown', unlockMobileEnvironment);
+  }
+  window.addEventListener('touchstart', unlockMobileEnvironment, { passive: true });
+  window.addEventListener('pointerdown', unlockMobileEnvironment, { passive: true });
 
   // =========================================================================
   // STEP 4: INTERACTIVE PHYSICS ENGINE (THE GRAND CELEBRATION ARSENAL)
@@ -459,25 +528,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Mobile Touch Support
+  // Mobile & Tablet Touch Support with Active Light Follow & Haptic Feedback
   posterStage.addEventListener('touchstart', (e) => {
     if (e.touches.length > 0) {
       const touch = e.touches[0];
-      if (!e.target.closest('#interactive-dock') && !e.target.closest('#personalize-modal')) {
+      lastUserInteraction = Date.now();
+      if (!e.target.closest('#interactive-dock') && !e.target.closest('#personalize-modal') && !e.target.closest('#temple-bells-container') && !e.target.closest('#diya-altar')) {
         handlePosterInteraction(touch.clientX, touch.clientY);
+        const rect = posterStage.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        posterStage.style.setProperty('--light-x', `${(x / rect.width * 100).toFixed(1)}%`);
+        posterStage.style.setProperty('--light-y', `${(y / rect.height * 100).toFixed(1)}%`);
       }
     }
   }, { passive: true });
 
   posterStage.addEventListener('touchmove', (e) => {
-    if (e.touches.length > 0 && currentToolMode === 'sparkler') {
+    if (e.touches.length > 0) {
       const touch = e.touches[0];
+      lastUserInteraction = Date.now();
       const rect = posterStage.getBoundingClientRect();
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
-      spawnSparkler(x, y, 3);
+
+      if (!e.target.closest('#interactive-dock') && !e.target.closest('#personalize-modal')) {
+        e.preventDefault(); // Stop mobile elastic bouncing / pulling while painting sparks
+        posterStage.style.setProperty('--light-x', `${(x / rect.width * 100).toFixed(1)}%`);
+        posterStage.style.setProperty('--light-y', `${(y / rect.height * 100).toFixed(1)}%`);
+
+        if (currentToolMode === 'sparkler') {
+          spawnSparkler(x, y, 5);
+        }
+      }
     }
-  }, { passive: true });
+  }, { passive: false });
 
   // Main FX Animation Loop (60 FPS on fx-canvas)
   function renderFX() {
@@ -529,6 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Detonate upon reaching target altitude
       if (r.y <= r.targetY) {
         explodeFirework(r.x, r.y, r.palette);
+        if (navigator.vibrate) navigator.vibrate(25);
         rockets.splice(i, 1);
       }
     }
@@ -816,17 +902,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const templeBells = document.querySelectorAll('.temple-bell-wrapper');
   templeBells.forEach((bell) => {
     const pitch = parseFloat(bell.getAttribute('data-pitch')) || 392.0;
-    bell.addEventListener('click', () => {
+    
+    function ringThisBell() {
       bell.classList.remove('ringing');
       void bell.offsetWidth; // trigger reflow
       bell.classList.add('ringing');
       playBellChime(pitch);
+      if (navigator.vibrate) navigator.vibrate(35);
       
       // Spawn golden aura around bell
       const rect = bell.getBoundingClientRect();
       const stageRect = posterStage.getBoundingClientRect();
       spawnSparkler(rect.left - stageRect.left + rect.width / 2, rect.top - stageRect.top + rect.height, 12);
-    });
+    }
+
+    bell.addEventListener('click', ringThisBell);
+    bell.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      ringThisBell();
+    }, { passive: true });
   });
 
   // --- PROGRESSIVE 5-STAGE DIYA LIGHTING & AWAKENING CEREMONY ---
@@ -846,6 +940,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (litDiyas.has(diyaIndex)) return;
 
     litDiyas.add(diyaIndex);
+    if (navigator.vibrate) navigator.vibrate([25, 40, 25]);
 
     // Visual Flame Update
     const flameParticle = diyaElement.querySelector('.flame-particle');

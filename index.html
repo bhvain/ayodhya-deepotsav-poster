@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#06020d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Ayodhya Deepotsav — Shubh Deepawali Interactive Poster</title>
   
   <!-- Google Fonts: Cinzel Decorative, Rozha One, Yatra One, Plus Jakarta Sans -->
@@ -129,12 +132,12 @@
         </svg>
 
         <!-- Hanging Interactive Temple Bells (Ghanta Row) -->
-        <div id="temple-bells-container" class="pointer-events-auto -mt-6 sm:-mt-8 flex justify-center items-start gap-6 sm:gap-14 md:gap-20 z-40">
+        <div id="temple-bells-container" class="pointer-events-auto -mt-5 sm:-mt-8 flex justify-center items-start gap-2.5 sm:gap-10 md:gap-16 z-40 px-2">
           <!-- Bell 1 -->
           <div class="temple-bell-wrapper cursor-pointer group" data-pitch="261.63" title="Ring Temple Bell">
-            <div class="bell-chain h-6 sm:h-10 w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
+            <div class="bell-chain h-5 sm:h-10 w-[1.5px] sm:w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
             <div class="bell-body transition-transform duration-300 origin-top group-hover:scale-105">
-              <svg class="w-7 h-9 sm:w-10 sm:h-12 text-[#ffd700] filter drop-shadow-[0_4px_8px_rgba(255,215,0,0.6)]" viewBox="0 0 40 48" fill="currentColor">
+              <svg class="w-6 h-8 sm:w-10 sm:h-12 text-[#ffd700] filter drop-shadow-[0_4px_8px_rgba(255,215,0,0.6)]" viewBox="0 0 40 48" fill="currentColor">
                 <path d="M20,2 C17,2 15,4 15,7 L14,14 C11,18 8,24 7,32 L33,32 C32,24 29,18 26,14 L25,7 C25,4 23,2 20,2 Z" fill="url(#goldGradient)"/>
                 <ellipse cx="20" cy="33" rx="14" ry="4" fill="#d4af37"/>
                 <circle cx="20" cy="37" r="3.5" fill="#ffd700" class="bell-clapper"/>
@@ -144,9 +147,9 @@
 
           <!-- Bell 2 -->
           <div class="temple-bell-wrapper cursor-pointer group" data-pitch="329.63" title="Ring Temple Bell">
-            <div class="bell-chain h-8 sm:h-14 w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
+            <div class="bell-chain h-7 sm:h-14 w-[1.5px] sm:w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
             <div class="bell-body transition-transform duration-300 origin-top group-hover:scale-105">
-              <svg class="w-8 h-10 sm:w-11 sm:h-14 text-[#ffd700] filter drop-shadow-[0_4px_10px_rgba(255,215,0,0.7)]" viewBox="0 0 40 48" fill="currentColor">
+              <svg class="w-7 h-9 sm:w-11 sm:h-14 text-[#ffd700] filter drop-shadow-[0_4px_10px_rgba(255,215,0,0.7)]" viewBox="0 0 40 48" fill="currentColor">
                 <path d="M20,2 C17,2 15,4 15,7 L14,14 C11,18 8,24 7,32 L33,32 C32,24 29,18 26,14 L25,7 C25,4 23,2 20,2 Z" fill="url(#goldGradient)"/>
                 <ellipse cx="20" cy="33" rx="14" ry="4" fill="#d4af37"/>
                 <circle cx="20" cy="37" r="3.5" fill="#ffd700" class="bell-clapper"/>
@@ -156,9 +159,9 @@
 
           <!-- Center Master Bell -->
           <div class="temple-bell-wrapper cursor-pointer group" data-pitch="392.00" title="Ring Sacred Maha Bell">
-            <div class="bell-chain h-10 sm:h-16 w-[2.5px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
+            <div class="bell-chain h-9 sm:h-16 w-[2px] sm:w-[2.5px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
             <div class="bell-body transition-transform duration-300 origin-top group-hover:scale-110">
-              <svg class="w-10 h-12 sm:w-14 sm:h-18 text-[#ffd700] filter drop-shadow-[0_6px_16px_rgba(255,215,0,0.85)]" viewBox="0 0 40 48" fill="currentColor">
+              <svg class="w-9 h-11 sm:w-14 sm:h-18 text-[#ffd700] filter drop-shadow-[0_6px_16px_rgba(255,215,0,0.85)]" viewBox="0 0 40 48" fill="currentColor">
                 <path d="M20,2 C17,2 15,4 15,7 L14,14 C11,18 8,24 7,32 L33,32 C32,24 29,18 26,14 L25,7 C25,4 23,2 20,2 Z" fill="url(#goldGradient)"/>
                 <ellipse cx="20" cy="33" rx="14" ry="4" fill="#d4af37"/>
                 <circle cx="20" cy="37" r="4.2" fill="#fff7c2" class="bell-clapper"/>
@@ -168,9 +171,9 @@
 
           <!-- Bell 4 -->
           <div class="temple-bell-wrapper cursor-pointer group" data-pitch="440.00" title="Ring Temple Bell">
-            <div class="bell-chain h-8 sm:h-14 w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
+            <div class="bell-chain h-7 sm:h-14 w-[1.5px] sm:w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
             <div class="bell-body transition-transform duration-300 origin-top group-hover:scale-105">
-              <svg class="w-8 h-10 sm:w-11 sm:h-14 text-[#ffd700] filter drop-shadow-[0_4px_10px_rgba(255,215,0,0.7)]" viewBox="0 0 40 48" fill="currentColor">
+              <svg class="w-7 h-9 sm:w-11 sm:h-14 text-[#ffd700] filter drop-shadow-[0_4px_10px_rgba(255,215,0,0.7)]" viewBox="0 0 40 48" fill="currentColor">
                 <path d="M20,2 C17,2 15,4 15,7 L14,14 C11,18 8,24 7,32 L33,32 C32,24 29,18 26,14 L25,7 C25,4 23,2 20,2 Z" fill="url(#goldGradient)"/>
                 <ellipse cx="20" cy="33" rx="14" ry="4" fill="#d4af37"/>
                 <circle cx="20" cy="37" r="3.5" fill="#ffd700" class="bell-clapper"/>
@@ -180,9 +183,9 @@
 
           <!-- Bell 5 -->
           <div class="temple-bell-wrapper cursor-pointer group" data-pitch="523.25" title="Ring Temple Bell">
-            <div class="bell-chain h-6 sm:h-10 w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
+            <div class="bell-chain h-5 sm:h-10 w-[1.5px] sm:w-[2px] bg-gradient-to-b from-[#ffe082] to-[#b38f2a] mx-auto"></div>
             <div class="bell-body transition-transform duration-300 origin-top group-hover:scale-105">
-              <svg class="w-7 h-9 sm:w-10 sm:h-12 text-[#ffd700] filter drop-shadow-[0_4px_8px_rgba(255,215,0,0.6)]" viewBox="0 0 40 48" fill="currentColor">
+              <svg class="w-6 h-8 sm:w-10 sm:h-12 text-[#ffd700] filter drop-shadow-[0_4px_8px_rgba(255,215,0,0.6)]" viewBox="0 0 40 48" fill="currentColor">
                 <path d="M20,2 C17,2 15,4 15,7 L14,14 C11,18 8,24 7,32 L33,32 C32,24 29,18 26,14 L25,7 C25,4 23,2 20,2 Z" fill="url(#goldGradient)"/>
                 <ellipse cx="20" cy="33" rx="14" ry="4" fill="#d4af37"/>
                 <circle cx="20" cy="37" r="3.5" fill="#ffd700" class="bell-clapper"/>
@@ -211,31 +214,31 @@
       <div class="corner-bracket bottom-3 right-3 z-30 rotate-180"></div>
 
       <!-- ================= HEADER SECTION: SACRED METADATA & SHLOKA ================= -->
-      <header class="relative z-20 pt-16 sm:pt-20 px-6 sm:px-12 text-center pointer-events-none">
+      <header class="relative z-20 pt-10 sm:pt-16 md:pt-20 px-3 sm:px-12 text-center pointer-events-none">
         <!-- Top Festival Metadata Stamp -->
-        <div class="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-1 rounded-full bg-[#1e0a24]/60 border border-[#d4af37]/40 backdrop-blur-md shadow-lg mb-2">
+        <div class="inline-flex items-center gap-1.5 sm:gap-3 px-2.5 sm:px-5 py-0.5 sm:py-1 rounded-full bg-[#1e0a24]/70 border border-[#d4af37]/40 backdrop-blur-md shadow-lg mb-1 sm:mb-2">
           <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
-          <span class="text-[9px] sm:text-xs tracking-[0.25em] text-[#fceec7] uppercase font-semibold">
-            अयोध्या दीपोत्सव • THE TRIUMPHANT RETURN OF RAGHAV • ED. 2026
+          <span class="text-[8px] sm:text-xs tracking-[0.15em] sm:tracking-[0.25em] text-[#fceec7] uppercase font-semibold">
+            अयोध्या दीपोत्सव • RETURN OF RAGHAV • 2026
           </span>
           <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
         </div>
 
         <!-- Sacred Devanagari Sanskrit Shloka -->
-        <p class="font-rozha text-[#e5c158] text-sm sm:text-lg md:text-xl tracking-wider text-glow-gold opacity-90 drop-shadow-md">
+        <p class="font-rozha text-[#e5c158] text-xs sm:text-lg md:text-xl tracking-wider text-glow-gold opacity-90 drop-shadow-md">
           "रामो विग्रहवान् धर्मः • तमसो मा ज्योतिर्गमय"
         </p>
       </header>
 
       <!-- ================= CENTERPIECE: ROYAL TYPOGRAPHY & LIGHTING CORE ================= -->
-      <section id="center-monument" class="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-4 -mt-4 sm:-mt-6">
+      <section id="center-monument" class="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-2 sm:px-4 -mt-2 sm:-mt-6">
         
         <!-- Subtle Glowing Aura / Sunburst Behind Raghav Emblem -->
-        <div id="halo-glow" class="absolute w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] rounded-full bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-amber-300/15 blur-3xl pointer-events-none animate-pulse"></div>
+        <div id="halo-glow" class="absolute w-[220px] h-[220px] sm:w-[480px] sm:h-[480px] rounded-full bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-amber-300/15 blur-3xl pointer-events-none animate-pulse"></div>
 
         <!-- Sacred Bow & Arrow / Kodanda & Surya Silhouette Motif -->
-        <div class="mb-2 sm:mb-3 filter drop-shadow-[0_0_15px_rgba(255,193,7,0.6)]">
-          <svg class="w-12 h-12 sm:w-16 sm:h-16 text-[#ffd54f]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+        <div class="mb-1 sm:mb-3 filter drop-shadow-[0_0_15px_rgba(255,193,7,0.6)]">
+          <svg class="w-8 h-8 sm:w-14 sm:h-14 text-[#ffd54f]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
             <!-- Sun Rays Circle -->
             <circle cx="50" cy="50" r="28" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>
             <!-- Sacred Bow (Kodanda) -->
@@ -248,35 +251,35 @@
         </div>
 
         <!-- Main Grand Title: SHUBH DEEPAWALI (Molten 24K Gold 3D Text) -->
-        <h1 id="main-title" class="font-cinzel text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight font-black leading-none gold-foil-text transition-all duration-700">
+        <h1 id="main-title" class="font-cinzel text-2xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight font-black leading-none gold-foil-text transition-all duration-700">
           SHUBH DEEPAWALI
         </h1>
 
         <!-- Devanagari Grand Inscription -->
-        <h2 class="font-yatra text-xl sm:text-3xl md:text-4xl text-[#ffe082] tracking-widest mt-1 sm:mt-2 text-glow-gold">
+        <h2 class="font-yatra text-base sm:text-2xl md:text-3xl lg:text-4xl text-[#ffe082] tracking-widest mt-1 text-glow-gold">
           शुभ दीपावली • जय श्री राम
         </h2>
 
-        <!-- Mythological Narrative Tagline -->
-        <p class="max-w-xl text-xs sm:text-sm md:text-base text-amber-200/80 font-light mt-2 sm:mt-3 leading-relaxed tracking-wide px-4 drop-shadow">
-          Commemorating the holy night when 1.4 million diyas lit the path of <span class="text-amber-300 font-medium">Maryada Purushottam Shri Ram</span> returning to Ayodhya Dham after 14 years.
+        <!-- Mythological Narrative Tagline (Compact on small phones) -->
+        <p class="max-w-xl text-[11px] sm:text-sm md:text-base text-amber-200/80 font-light mt-1 sm:mt-2.5 leading-snug sm:leading-relaxed tracking-wide px-2 sm:px-4 drop-shadow">
+          Commemorating 1.4 million diyas illuminating Ayodhya Dham for <span class="text-amber-300 font-medium">Maryada Purushottam Shri Ram</span>.
         </p>
 
         <!-- Dynamic Awakening Banner (Shows until user ignites first diya) -->
-        <div id="ignition-hint" class="mt-4 sm:mt-6 inline-flex items-center gap-3 px-4 py-2 rounded-full bg-black/60 border border-amber-500/50 backdrop-blur-md shadow-[0_0_25px_rgba(255,193,7,0.3)] animate-bounce cursor-pointer">
-          <span class="text-amber-400 text-lg">🪔</span>
-          <span class="text-xs sm:text-sm text-amber-200 font-semibold tracking-wide">
-            Touch or Click Diyas to Illuminate Ayodhya Dham
+        <div id="ignition-hint" class="mt-2.5 sm:mt-5 inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full bg-black/70 border border-amber-500/50 backdrop-blur-md shadow-[0_0_25px_rgba(255,193,7,0.3)] animate-bounce cursor-pointer">
+          <span class="text-amber-400 text-sm sm:text-base">🪔</span>
+          <span class="text-[11px] sm:text-sm text-amber-200 font-semibold tracking-wide">
+            Tap Diyas to Illuminate Ayodhya
           </span>
-          <span class="text-amber-400 text-xs px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40">or Blow / Clap</span>
+          <span class="text-amber-400 text-[10px] sm:text-xs px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-500/40">or Blow / Clap</span>
         </div>
       </section>
 
       <!-- ================= BOTTOM GHAT & INTERACTIVE DIYA FOUNDATION ================= -->
-      <footer class="relative z-20 pb-4 sm:pb-6 px-4 sm:px-8 flex flex-col items-center">
+      <footer class="relative z-20 pb-2 sm:pb-5 px-2 sm:px-8 flex flex-col items-center w-full">
         
         <!-- Sacred 5-Diya Ceremonial Array (The Awakening Points) -->
-        <div id="diya-altar" class="w-full max-w-2xl flex justify-around items-end mb-3 sm:mb-4 px-2">
+        <div id="diya-altar" class="w-full max-w-xl flex justify-around items-end mb-2 sm:mb-4 px-1">
           <!-- Diya 1 -->
           <div class="diya-node cursor-pointer group" data-diya="1" title="Ignite Sacred Diya 1">
             <div class="diya-flame-container relative flex flex-col items-center">
@@ -284,7 +287,7 @@
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
             <div class="diya-cup"></div>
-            <span class="text-[9px] text-amber-400/70 block text-center mt-1 font-mono">1. DHARMA</span>
+            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">1. DHARMA</span>
           </div>
 
           <!-- Diya 2 -->
@@ -294,17 +297,17 @@
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
             <div class="diya-cup"></div>
-            <span class="text-[9px] text-amber-400/70 block text-center mt-1 font-mono">2. SATYA</span>
+            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">2. SATYA</span>
           </div>
 
           <!-- Center Mahadiya (Special & Larger) -->
-          <div class="diya-node central-mahadiya cursor-pointer group scale-125" data-diya="3" title="Ignite Ayodhya Maha-Diya">
+          <div class="diya-node central-mahadiya cursor-pointer group scale-110 sm:scale-125" data-diya="3" title="Ignite Ayodhya Maha-Diya">
             <div class="diya-flame-container relative flex flex-col items-center">
               <div class="flame-glow opacity-0 transition-opacity duration-500"></div>
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
             <div class="diya-cup mahadiya-cup"></div>
-            <span class="text-[10px] text-amber-300 font-bold block text-center mt-1 tracking-wider">महादीप</span>
+            <span class="text-[9px] sm:text-[10px] text-amber-300 font-bold block text-center mt-0.5 sm:mt-1 tracking-wider">महादीप</span>
           </div>
 
           <!-- Diya 4 -->
@@ -314,7 +317,7 @@
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
             <div class="diya-cup"></div>
-            <span class="text-[9px] text-amber-400/70 block text-center mt-1 font-mono">4. PREMA</span>
+            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">4. PREMA</span>
           </div>
 
           <!-- Diya 5 -->
@@ -324,60 +327,60 @@
               <div class="flame-particle unlit transition-all duration-500"></div>
             </div>
             <div class="diya-cup"></div>
-            <span class="text-[9px] text-amber-400/70 block text-center mt-1 font-mono">5. SHAANTI</span>
+            <span class="text-[8px] sm:text-[9px] text-amber-400/80 block text-center mt-0.5 sm:mt-1 font-mono">5. SHAANTI</span>
           </div>
         </div>
 
-        <!-- Glassmorphic Interactive Cracker & Tool Dock -->
-        <div id="interactive-dock" class="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-2xl bg-black/60 border border-[#d4af37]/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+        <!-- Glassmorphic Interactive Cracker & Tool Dock (Responsive Mobile-Fit) -->
+        <div id="interactive-dock" class="flex items-center max-w-[98vw] overflow-x-auto no-scrollbar gap-1.5 sm:gap-2.5 p-1 sm:p-2 rounded-2xl bg-black/70 border border-[#d4af37]/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.7)]">
           <!-- Tool 1: Phuljhari Sparkler -->
-          <button class="dock-btn active" data-mode="sparkler" title="Phuljhari (Golden Sparkler Cursor)">
-            <span class="text-base sm:text-lg">✨</span>
-            <span class="hidden sm:inline text-xs font-semibold">Phuljhari</span>
+          <button class="dock-btn active" data-mode="sparkler" title="Phuljhari (Golden Sparkler)">
+            <span class="text-sm sm:text-base">✨</span>
+            <span class="hidden md:inline text-xs font-semibold">Phuljhari</span>
           </button>
           
           <!-- Tool 2: Floating Sarayu River Diya -->
           <button class="dock-btn" data-mode="river-diya" title="Float Diya on Sarayu River">
-            <span class="text-base sm:text-lg">🪔</span>
-            <span class="hidden sm:inline text-xs font-semibold">River Diya</span>
+            <span class="text-sm sm:text-base">🪔</span>
+            <span class="hidden md:inline text-xs font-semibold">River Diya</span>
           </button>
 
           <!-- Tool 3: Aakash Kandil (Sky Lantern) -->
           <button class="dock-btn" data-mode="lantern" title="Release Glowing Sky Lantern">
-            <span class="text-base sm:text-lg">🏮</span>
-            <span class="hidden sm:inline text-xs font-semibold">Sky Lantern</span>
+            <span class="text-sm sm:text-base">🏮</span>
+            <span class="hidden md:inline text-xs font-semibold">Lantern</span>
           </button>
 
           <!-- Tool 4: Royal Palace Fireworks -->
           <button class="dock-btn" data-mode="firework" title="Launch Celebratory Firework">
-            <span class="text-base sm:text-lg">🎆</span>
-            <span class="hidden sm:inline text-xs font-semibold">Firework</span>
+            <span class="text-sm sm:text-base">🎆</span>
+            <span class="hidden md:inline text-xs font-semibold">Firework</span>
           </button>
 
-          <div class="h-6 w-[1px] bg-amber-500/40 mx-1"></div>
+          <div class="h-5 sm:h-6 w-[1px] bg-amber-500/40 mx-0.5 sm:mx-1 flex-shrink-0"></div>
 
           <!-- Mic Toggle (Blow/Clap to ignite) -->
           <button id="mic-toggle-btn" class="dock-btn text-amber-300" title="Enable Mic (Blow or Clap to Ignite Mahadiya)">
-            <span id="mic-icon" class="text-base sm:text-lg">🎙️</span>
-            <span class="hidden md:inline text-xs font-semibold">Mic Ignite</span>
+            <span id="mic-icon" class="text-sm sm:text-base">🎙️</span>
+            <span class="hidden lg:inline text-xs font-semibold">Mic</span>
           </button>
 
           <!-- Audio Mute/Unmute -->
-          <button id="audio-toggle-btn" class="dock-btn text-amber-300" title="Toggle Procedural Festive Sound">
-            <span id="audio-icon" class="text-base sm:text-lg">🔊</span>
+          <button id="audio-toggle-btn" class="dock-btn text-amber-300" title="Toggle Sound">
+            <span id="audio-icon" class="text-sm sm:text-base">🔊</span>
           </button>
 
           <!-- Judge Closer: Personalize & Mint Poster -->
-          <button id="personalize-btn" class="px-3 sm:px-4 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-700 text-black font-bold text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(255,193,7,0.5)] hover:scale-105 active:scale-95 transition-all">
-            🏅 Personalize & Mint
+          <button id="personalize-btn" class="px-2.5 sm:px-4 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-700 text-black font-extrabold text-[11px] sm:text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(255,193,7,0.5)] hover:scale-105 active:scale-95 transition-all flex-shrink-0">
+            <span>🏅 <span class="hidden sm:inline">Personalize &</span> Mint</span>
           </button>
         </div>
 
         <!-- Inset Micro Metadata Line -->
-        <div class="mt-2 text-[10px] sm:text-xs text-amber-300/60 font-mono tracking-widest flex items-center justify-between w-full max-w-4xl px-2">
+        <div class="mt-1 sm:mt-2 text-[8px] sm:text-xs text-amber-300/60 font-mono tracking-widest flex items-center justify-between w-full max-w-4xl px-2">
           <span>LAT 26.7922° N // AYODHYA DHAM</span>
-          <span>SARAYU RIVER FRONT // ZERO BUILD ARCHITECTURE</span>
-          <span>CAMPUS DESIGN CHALLENGE 2026</span>
+          <span class="hidden sm:inline">SARAYU RIVER FRONT</span>
+          <span>SPEC CHALLENGE 2026</span>
         </div>
       </footer>
 
